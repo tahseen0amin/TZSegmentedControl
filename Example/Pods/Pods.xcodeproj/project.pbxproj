@@ -31,6 +31,11 @@
 		27B262F95D3CF9E3C74541A41929691C /* NMBStringify.h in Headers */ = {isa = PBXBuildFile; fileRef = D4621A1C4746AC480C7F889631FC8F57 /* NMBStringify.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2B30C1A5607A48D1A2EC96C621C97CCE /* QuickSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B89E09AD26974F1849359B57FE32A6AA /* QuickSpec.m */; };
 		3915DBB4731CB17B255A7FE86E240B6E /* CwlCatchBadInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE6D090220683EB93ACD11A04038DD /* CwlCatchBadInstruction.m */; settings = {COMPILER_FLAGS = "-DPRODUCT_NAME=Nimble/Nimble"; }; };
+		3CABB6FD1EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CABB6FC1EBC551000EEB9B0 /* TZSegmentedControl.swift */; };
+		3CABB6FE1EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CABB6FC1EBC551000EEB9B0 /* TZSegmentedControl.swift */; };
+		3CABB6FF1EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CABB6FC1EBC551000EEB9B0 /* TZSegmentedControl.swift */; };
+		3CABB7001EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CABB6FC1EBC551000EEB9B0 /* TZSegmentedControl.swift */; };
+		3CABB7011EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CABB6FC1EBC551000EEB9B0 /* TZSegmentedControl.swift */; };
 		3E5127B2B5AD6C7861A17824BE045EE5 /* ErrorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15A0E5C2D8902D8B3F11BE86DE704B8 /* ErrorUtility.swift */; };
 		3FFF8B7D9DBA8C8A253D5819E00C73F7 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD3BF5EB0A249E68523B43B6402EA1C /* World.swift */; };
 		469E9C3ED9FD6009F7C9AAF9E537E212 /* Nimble.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7DD158EC41F47A2796AB19C2CD1AD8 /* Nimble.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -174,6 +179,7 @@
 		360A2B7AB6C521E0F0B2A1FEDC638560 /* Pods-TZSegmentedControl_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TZSegmentedControl_Tests-dummy.m"; sourceTree = "<group>"; };
 		36F9E76E718B474FBEB8C1824AA1413A /* Filter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Sources/Quick/Filter.swift; sourceTree = "<group>"; };
 		38EAA5C42217B7B063F37051F2AF7B26 /* TZSegmentedControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TZSegmentedControl-umbrella.h"; sourceTree = "<group>"; };
+		3CABB6FC1EBC551000EEB9B0 /* TZSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZSegmentedControl.swift; sourceTree = "<group>"; };
 		3FBDD60AB5EC0183A198A13D9A5D7BCE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4606F71071333AEDF06D8E31389AECC9 /* World.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = World.h; path = Sources/QuickObjectiveC/World.h; sourceTree = "<group>"; };
 		462592DD75CDB244835F58221773956C /* Closures.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Closures.swift; path = Sources/Quick/Hooks/Closures.swift; sourceTree = "<group>"; };
@@ -426,6 +432,7 @@
 		6C257F8DB76022DD3A595F0FF57F3B5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3CABB6FC1EBC551000EEB9B0 /* TZSegmentedControl.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -768,6 +775,17 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					5959EA4ADE4086943B40C03D66AB5771 = {
+						LastSwiftMigration = 0830;
+					};
+					88AB69D340400F687945FF453D2E0AE3 = {
+						LastSwiftMigration = 0830;
+					};
+					A0A6A23141735F925F271AC826CA557E = {
+						LastSwiftMigration = 0830;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -803,6 +821,7 @@
 				8BA88773D02DEE95F7086CB4209A349B /* Example.swift in Sources */,
 				F4E1632031ED04DB3E4C18664238C6D3 /* ExampleGroup.swift in Sources */,
 				A44B508FC5CAA054C3AA57DEBE3E51F8 /* ExampleHooks.swift in Sources */,
+				3CABB7001EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */,
 				694E3A6F2DEE91E936D100E126F5E84C /* ExampleMetadata.swift in Sources */,
 				16973049B24E40E598424F4301663084 /* Filter.swift in Sources */,
 				93D35630F34F4054D359C0795DE1F5E9 /* HooksPhase.swift in Sources */,
@@ -856,6 +875,7 @@
 				1C7CA1FAFBF8B865596C739FEA39CDEE /* DSL.m in Sources */,
 				17261E344C2027602431A636759AC7F2 /* DSL.swift in Sources */,
 				8654571F855691C23B7B8E61B2141944 /* EndWith.swift in Sources */,
+				3CABB6FD1EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */,
 				BF3AF1D2B46E09E2B3DCC824E6C1F5AF /* Equal.swift in Sources */,
 				7F6750C7B1847733370B18C4CBFE32DF /* Errors.swift in Sources */,
 				CB7558CCDD935C9E82BBF454022ED1D3 /* Expectation.swift in Sources */,
@@ -890,6 +910,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CABB6FE1EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */,
 				A7E8A7C0D3FA67ADF6F7849DFFB50D08 /* Pods-TZSegmentedControl_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -898,6 +919,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CABB6FF1EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */,
 				21A4EB9748D47F8CBF9D578B52517C2F /* Pods-TZSegmentedControl_Tests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -906,6 +928,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CABB7011EBC551000EEB9B0 /* TZSegmentedControl.swift in Sources */,
 				5B4B6765DB039B5A133519FA812C2910 /* TZSegmentedControl-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1055,6 +1078,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E76355F78BED61F75A982099819D29E5 /* Pods-TZSegmentedControl_Tests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1129,6 +1153,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9B391DA83EF6CD23B2FF35D60EF6E724 /* TZSegmentedControl.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1208,6 +1233,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D248ADE5FDA87526F1E77BE2C439F535 /* Pods-TZSegmentedControl_Example.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1247,6 +1273,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 625D8A46A501F7C80746C2A54F92752E /* Pods-TZSegmentedControl_Example.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1285,6 +1312,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F69EECB72F014AD53897B9ABDAF38228 /* Pods-TZSegmentedControl_Tests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1323,6 +1351,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9B391DA83EF6CD23B2FF35D60EF6E724 /* TZSegmentedControl.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
