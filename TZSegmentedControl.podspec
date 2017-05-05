@@ -21,17 +21,17 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/tahseen0amin@gmail.com/TZSegmentedControl'
+  s.homepage         = 'https://github.com/tahseen0amin/TZSegmentedControl'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'tahseen0amin@gmail.com' => 'tahseen0amin@gmail.com' }
-  s.source           = { :git => 'https://github.com/tahseen0amin@gmail.com/TZSegmentedControl.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/tahseen0amin/TZSegmentedControl.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'TZSegmentedControl/Classes/**/*'
-  
+
   # s.resource_bundles = {
   #   'TZSegmentedControl' => ['TZSegmentedControl/Assets/*.png']
   # }
