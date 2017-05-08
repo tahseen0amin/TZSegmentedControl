@@ -53,7 +53,7 @@ let TZSegmentedControlNoSegment = -1
 typealias IndexChangeBlock = ((Int) -> Void)
 typealias TZTitleFormatterBlock = ((_ segmentedControl: TZSegmentedControl, _ title: String, _ index: Int, _ selected: Bool) -> NSAttributedString)
 
-class TZSegmentedControl: UIControl {
+open class TZSegmentedControl: UIControl {
 
     var sectionTitles : [String]! {
         didSet {
@@ -249,6 +249,17 @@ class TZSegmentedControl: UIControl {
         self.backgroundColor = UIColor.white
         self.isOpaque = false
         self.contentMode = .redraw
+    }
+    
+    //MARK: - View LifeCycle
+    open override func willMove(toSuperview newSuperview: UIView?) {
+        if newSuperview == nil {
+            // Control is being removed
+            return
+        }
+        if self.sectionTitles != nil || self.sectionImages != nil {
+            self.updateSegmentsRects()
+        }
     }
     
     //MARK: - Drawing 
@@ -529,40 +540,31 @@ class TZSegmentedControl: UIControl {
     }
     
     private func setArrowFrame(){
+        self.selectionIndicatorArrowLayer.frame = self.frameForSelectionIndicator()
+        self.selectionIndicatorArrowLayer.mask = nil;
+    
+        let arrowPath = UIBezierPath()
+        var p1 = CGPoint.zero;
+        var p2 = CGPoint.zero;
+        var p3 = CGPoint.zero;
         
+        if self.selectionIndicatorLocation == .down {
+            p1 = CGPoint(x: self.selectionIndicatorArrowLayer.bounds.size.width / 2, y: 0);
+            p2 = CGPoint(x: 0, y: self.selectionIndicatorArrowLayer.bounds.size.height);
+            p3 = CGPoint(x: self.selectionIndicatorArrowLayer.bounds.size.width, y: self.selectionIndicatorArrowLayer.bounds.size.height)
+        } else if self.selectionIndicatorLocation == .up {
+            p1 = CGPoint(x: self.selectionIndicatorArrowLayer.bounds.size.width / 2, y: self.selectionIndicatorArrowLayer.bounds.size.height);
+            p2 = CGPoint(x: self.selectionIndicatorArrowLayer.bounds.size.width, y:0);
+        }
+        arrowPath.move(to: p1)
+        arrowPath.addLine(to: p2)
+        arrowPath.addLine(to: p3)
+        arrowPath.close()
         
-        
-//        self.selectionIndicatorArrowLayer.frame = [self frameForSelectionIndicator];
-//        
-//        self.selectionIndicatorArrowLayer.mask = nil;
-//        
-//        UIBezierPath *arrowPath = [UIBezierPath bezierPath];
-//        
-//        CGPoint p1 = CGPointZero;
-//        CGPoint p2 = CGPointZero;
-//        CGPoint p3 = CGPointZero;
-//        
-//        if (self.selectionIndicatorLocation == HMSegmentedControlSelectionIndicatorLocationDown) {
-//            p1 = CGPointMake(self.selectionIndicatorArrowLayer.bounds.size.width / 2, 0);
-//            p2 = CGPointMake(0, self.selectionIndicatorArrowLayer.bounds.size.height);
-//            p3 = CGPointMake(self.selectionIndicatorArrowLayer.bounds.size.width, self.selectionIndicatorArrowLayer.bounds.size.height);
-//        }
-//        
-//        if (self.selectionIndicatorLocation == HMSegmentedControlSelectionIndicatorLocationUp) {
-//            p1 = CGPointMake(self.selectionIndicatorArrowLayer.bounds.size.width / 2, self.selectionIndicatorArrowLayer.bounds.size.height);
-//            p2 = CGPointMake(self.selectionIndicatorArrowLayer.bounds.size.width, 0);
-//            p3 = CGPointMake(0, 0);
-//        }
-//        
-//        [arrowPath moveToPoint:p1];
-//        [arrowPath addLineToPoint:p2];
-//        [arrowPath addLineToPoint:p3];
-//        [arrowPath closePath];
-//        
-//        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-//        maskLayer.frame = self.selectionIndicatorArrowLayer.bounds;
-//        maskLayer.path = arrowPath.CGPath;
-//        self.selectionIndicatorArrowLayer.mask = maskLayer;
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = self.selectionIndicatorArrowLayer.bounds
+        maskLayer.path = arrowPath.cgPath
+        self.selectionIndicatorArrowLayer.mask = maskLayer
     }
     
     private func frameForSelectionIndicator() -> CGRect {
@@ -586,19 +588,177 @@ class TZSegmentedControl: UIControl {
         if self.selectionStyle == .arrow {
             let widthToStartOfSelIndex : CGFloat = CGFloat(self.selectedSegmentIndex) * self.segmentWidth
             let widthToEndOfSelIndex : CGFloat = widthToStartOfSelIndex + self.segmentWidth
-            let xPos = widthToStartOfSelIndex + ((widthToEndOfSelIndex - widthToStartOfSelIndex) / 2) - (self.selectionIndicatorHeight/2)
+            let xPos = widthToStartOfSelIndex + ((widthToEndOfSelIndex - widthToStartOfSelIndex) / 2) - (self.selectionIndicatorHeight)
+            return CGRect(x: xPos, y: indicatorYOffset, width: self.selectionIndicatorHeight * 2, height: self.selectionIndicatorHeight)
+        } else {
+            if self.selectionStyle == .textWidth && sectionWidth <= self.segmentWidth &&
+                self.segmentWidthStyle != .dynamic {
+                let widthToStartOfSelIndex : CGFloat = CGFloat(self.selectedSegmentIndex) * self.segmentWidth
+                let widthToEndOfSelIndex : CGFloat = widthToStartOfSelIndex + self.segmentWidth
+                
+                var xPos = (widthToStartOfSelIndex - (sectionWidth / 2)) + ((widthToEndOfSelIndex - widthToStartOfSelIndex) / 2)
+                xPos += self.edgeInset.left
+                return CGRect(x: xPos, y: indicatorYOffset, width: (sectionWidth - self.edgeInset.right), height: self.selectionIndicatorHeight)
+            } else {
+                if self.segmentWidthStyle == .dynamic {
+                    var selectedSegmentOffset : CGFloat = 0
+                    var i = 0
+                    for width in self.segmentWidthsArray {
+                        if self.selectedSegmentIndex == i {
+                            break
+                        }
+                        selectedSegmentOffset += width
+                        i += 1
+                    }
+                    return CGRect(x: selectedSegmentOffset + self.edgeInset.left,
+                                  y: indicatorYOffset,
+                                  width: self.segmentWidthsArray[self.selectedSegmentIndex] - self.edgeInset.right,
+                                  height: self.selectionIndicatorHeight + self.edgeInset.bottom)
+                }
+                
+                let xPos = (self.segmentWidth + self.edgeInset.left) * CGFloat(self.selectedSegmentIndex)
+                return CGRect(x: xPos, y: indicatorYOffset, width: (self.segmentWidth - self.edgeInset.right), height: self.selectionIndicatorHeight)
+            }
+        }
+    }
+    
+    private func frameForFillerSelectionIndicator() -> CGRect {
+        if self.segmentWidthStyle == .dynamic {
+            var selectedSegmentOffset : CGFloat = 0
+            var i = 0
+            for width in self.segmentWidthsArray {
+                if self.selectedSegmentIndex == i {
+                    break;
+                }
+                selectedSegmentOffset += width
+                i += 1
+            }
             
+            return CGRect(x: selectedSegmentOffset, y: 0, width:self.segmentWidthsArray[self.selectedSegmentIndex], height: self.frame.height)
+        }
+        return CGRect(x: self.segmentWidth * CGFloat(self.selectedSegmentIndex), y: 0, width: self.segmentWidth, height: self.frame.height)
+    }
+    
+    private func updateSegmentsRects() {
+        self.scrollView.contentInset = UIEdgeInsets.zero
+        self.scrollView.frame = CGRect(origin: CGPoint.zero, size: self.frame.size)
+        
+        let count = self.sectionCount()
+        if count > 0 {
+            self.segmentWidth = self.frame.size.width / CGFloat(count)
         }
         
-//        if (self.selectionStyle == HMSegmentedControlSelectionStyleArrow) {
-//            CGFloat widthToEndOfSelectedSegment = (self.segmentWidth * self.selectedSegmentIndex) + self.segmentWidth;
-//            CGFloat widthToStartOfSelectedIndex = (self.segmentWidth * self.selectedSegmentIndex);
-//            
-//            CGFloat x = widthToStartOfSelectedIndex + ((widthToEndOfSelectedSegment - widthToStartOfSelectedIndex) / 2) - (self.selectionIndicatorHeight/2);
-//            return CGRectMake(x - (self.selectionIndicatorHeight / 2), indicatorYOffset, self.selectionIndicatorHeight * 2, self.selectionIndicatorHeight);
-//        }
-        
-        return CGRect.zero
+        if self.type == .text {
+            if self.segmentWidthStyle == .fixed {
+                for (index, _) in self.sectionTitles.enumerated() {
+                    let stringWidth = self.measureTitleAtIndex(index: index).width +
+                                        self.edgeInset.left + self.edgeInset.right
+                    self.segmentWidth = max(stringWidth, self.segmentWidth)
+                }
+            } else if self.segmentWidthStyle == .dynamic {
+                var arr = [CGFloat]()
+                for (index, _) in self.sectionTitles.enumerated() {
+                    let stringWidth = self.measureTitleAtIndex(index: index).width +
+                        self.edgeInset.left + self.edgeInset.right
+                    arr.append(stringWidth)
+                }
+                self.segmentWidthsArray = arr
+            }
+        } else if self.type == .images {
+            for image in self.sectionImages {
+                let imageWidth = image.size.width + self.edgeInset.left + self.edgeInset.right
+                self.segmentWidth = max(imageWidth, self.segmentWidth)
+            }
+        } else if self.type == .textImages {
+            if self.segmentWidthStyle == .fixed {
+                for (index, _) in self.sectionTitles.enumerated() {
+                    let stringWidth = self.measureTitleAtIndex(index: index).width +
+                        self.edgeInset.left + self.edgeInset.right
+                    self.segmentWidth = max(stringWidth, self.segmentWidth)
+                }
+            } else if self.segmentWidthStyle == .dynamic {
+                var arr = [CGFloat]()
+                for (index, _) in self.sectionTitles.enumerated() {
+                    let stringWidth = self.measureTitleAtIndex(index: index).width +
+                        self.edgeInset.right
+                    let imageWidth = self.sectionImages[index].size.width + self.edgeInset.left
+                    arr.append(max(stringWidth, imageWidth))
+                }
+                self.segmentWidthsArray = arr
+            }
+        }
+        self.scrollView.isScrollEnabled = true
+        self.scrollView.contentSize = CGSize(width: self.totalSegmentedControlWidth(), height: self.frame.height)
     }
+    
+    private func sectionCount() -> Int {
+        if self.type == .text {
+            return self.sectionTitles.count
+        } else {
+            return self.sectionImages.count
+        }
+    }
+    
+    private func totalSegmentedControlWidth() -> CGFloat {
+        if self.type != .images {
+            if self.segmentWidthStyle == .fixed {
+                return CGFloat(self.sectionTitles.count) * self.segmentWidth
+            } else {
+                let sum = self.segmentWidthsArray.reduce(0,+)
+                return sum
+            }
+        } else {
+            return CGFloat(self.sectionImages.count) * self.segmentWidth
+        }
+    }
+    
+    var enlargeEdgeInset = UIEdgeInsets.zero
+    
+    //MARK: - Touch Methods
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        guard let touchesLocation = touch?.location(in: self) else {
+            assert(false, "Touch Location not found")
+        }
+        let enlargeRect = CGRect(x: self.bounds.origin.x - self.enlargeEdgeInset.left,
+                                 y: self.bounds.origin.y - self.enlargeEdgeInset.top,
+                                 width: self.bounds.size.width + self.enlargeEdgeInset.left + self.enlargeEdgeInset.right,
+                                 height: self.bounds.size.height + self.enlargeEdgeInset.top + self.enlargeEdgeInset.bottom)
+        
+        if enlargeRect.contains(touchesLocation) {
+            var segment = 0
+            if self.segmentWidthStyle == .fixed {
+                segment = Int((touchesLocation.x + self.scrollView.contentOffset.x) / self.segmentWidth)
+            } else {
+               // To know which segment the user touched, we need to loop over the widths and substract it from the x position.
+                var widthLeft = touchesLocation.x + self.scrollView.contentOffset.x
+                for width in self.segmentWidthsArray {
+                    widthLeft -= width
+                    // When we don't have any width left to substract, we have the segment index.
+                    if widthLeft <= 0 {
+                        break
+                    }
+                    segment += 1
+                }
+            }
+            
+            var sectionsCount = 0
+            if self.type == .images {
+                sectionsCount = self.sectionImages.count
+            } else {
+                sectionsCount = self.sectionTitles.count
+            }
+            
+            if segment != self.selectedSegmentIndex && segment < sectionsCount {
+                // Check if we have to do anything with the touch event
+                
+            }
 
+//            if (segment != self.selectedSegmentIndex && segment < sectionsCount) {
+//                // Check if we have to do anything with the touch event
+//                if (self.isTouchEnabled)
+//                [self setSelectedSegmentIndex:segment animated:self.shouldAnimateUserSelection notify:YES];
+//            }
+        }
+    }
 }
