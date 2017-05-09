@@ -16,25 +16,25 @@ import UIKit
 /// - parameter arrow : An arrow in the middle of the segment pointing up or down depending
 ///                     on `TZSegmentedControlSelectionIndicatorLocation`
 ///
-enum TZSegmentedControlSelectionStyle {
+public enum TZSegmentedControlSelectionStyle {
     case textWidth
     case fullWidth
     case box
     case arrow
 }
 
-enum TZSegmentedControlSelectionIndicatorLocation{
+public enum TZSegmentedControlSelectionIndicatorLocation{
     case up
     case down
     case none // No selection indicator
 }
 
-enum TZSegmentedControlSegmentWidthStyle {
+public enum TZSegmentedControlSegmentWidthStyle {
     case fixed      // Segment width is fixed
     case dynamic    // Segment width will only be as big as the text width (including inset)
 }
 
-enum TZSegmentedControlBorderType {
+public enum TZSegmentedControlBorderType {
     case none   // 0
     case top    // (1 << 0)
     case left   // (1 << 1)
@@ -42,67 +42,69 @@ enum TZSegmentedControlBorderType {
     case right  // (1 << 3)
 }
 
-enum TZSegmentedControlType {
+public enum TZSegmentedControlType {
     case text
     case images
     case textImages
 }
 
-let TZSegmentedControlNoSegment = -1
+public let TZSegmentedControlNoSegment = -1
 
-typealias IndexChangeBlock = ((Int) -> Void)
-typealias TZTitleFormatterBlock = ((_ segmentedControl: TZSegmentedControl, _ title: String, _ index: Int, _ selected: Bool) -> NSAttributedString)
+public typealias IndexChangeBlock = ((Int) -> Void)
+public typealias TZTitleFormatterBlock = ((_ segmentedControl: TZSegmentedControl, _ title: String, _ index: Int, _ selected: Bool) -> NSAttributedString)
 
 open class TZSegmentedControl: UIControl {
 
-    var sectionTitles : [String]! {
+    public var sectionTitles : [String]! {
         didSet {
             self.setNeedsLayout()
             self.setNeedsDisplay()
         }
     }
-    var sectionImages: [UIImage]! {
+    public var sectionImages: [UIImage]! {
         didSet {
             self.setNeedsLayout()
             self.setNeedsDisplay()
         }
     }
-    var sectionSelectedImages : [UIImage]!
+    public var sectionSelectedImages : [UIImage]!
     
     /// Provide a block to be executed when selected index is changed.
     /// Alternativly, you could use `addTarget:action:forControlEvents:`
-    var indexChangeBlock : IndexChangeBlock?
+    public var indexChangeBlock : IndexChangeBlock?
     
     /// Used to apply custom text styling to titles when set.
     /// When this block is set, no additional styling is applied to the `NSAttributedString` object
     /// returned from this block.
-    var titleFormatter : TZTitleFormatterBlock?
+    public var titleFormatter : TZTitleFormatterBlock?
     
     /// Text attributes to apply to labels of the unselected segments
-    var titleTextAttributes: [String:Any]? = [NSFontAttributeName: UIFont.systemFont(ofSize: 19.0),
-                                              NSForegroundColorAttributeName: UIColor.black]
+    public var titleTextAttributes: [String:Any]?
     
     /// Text attributes to apply to selected item title text.
     /// Attributes not set in this dictionary are inherited from `titleTextAttributes`.
-    var selectedTitleTextAttributes: [String: Any]? =  [NSFontAttributeName: UIFont.systemFont(ofSize: 19.0),
-                                                        NSForegroundColorAttributeName: UIColor.blue]
+    public var selectedTitleTextAttributes: [String: Any]?
     
     /// Segmented control background color.
     /// Default is `[UIColor whiteColor]`
-    dynamic override var backgroundColor: UIColor! {
-        set {self.backgroundColor = newValue}
-        get {return self.backgroundColor}
+    dynamic override open var backgroundColor: UIColor! {
+        set {
+            TZSegmentedControl.appearance().backgroundColor = newValue
+        }
+        get {
+            return TZSegmentedControl.appearance().backgroundColor
+        }
     }
     
     /// Color for the selection indicator stripe
-    var selectionIndicatorColor: UIColor = .black {
+    public var selectionIndicatorColor: UIColor = .black {
         didSet {
             self.selectionIndicator.backgroundColor = selectionIndicatorColor
             self.selectionIndicatorBoxColor = selectionIndicatorColor
         }
     }
     
-    lazy var selectionIndicator: UIView = {
+    public lazy var selectionIndicator: UIView = {
         let selectionIndicator = UIView()
         selectionIndicator.backgroundColor = self.selectionIndicatorColor
         selectionIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -111,40 +113,35 @@ open class TZSegmentedControl: UIControl {
     
     /// Color for the selection indicator box
     /// Default is selectionIndicatorColor
-    dynamic var selectionIndicatorBoxColor : UIColor!;
+    dynamic open var selectionIndicatorBoxColor : UIColor!;
     
     /// Color for the vertical divider between segments.
     /// Default is `[UIColor blackColor]`
-    dynamic var verticalDividerColor : UIColor!;
+    dynamic open var verticalDividerColor : UIColor!;
     
     //TODO Add other visual apperance properities
     
     /// Specifies the style of the control
     /// Default is `text`
-    var type: TZSegmentedControlType = .text
+    public var type: TZSegmentedControlType = .text
     
     /// Specifies the style of the selection indicator.
     /// Default is `textWidth`
-    var selectionStyle: TZSegmentedControlSelectionStyle = .textWidth
+    public var selectionStyle: TZSegmentedControlSelectionStyle = .textWidth
     
     /// Specifies the style of the segment's width.
     /// Default is `fixed`
-    var segmentWidthStyle: TZSegmentedControlSegmentWidthStyle {
-        set {
-            if self.type == .images {
+    public var segmentWidthStyle: TZSegmentedControlSegmentWidthStyle = .dynamic {
+        didSet {
+            if self.segmentWidthStyle == .dynamic && self.type == .images {
                 self.segmentWidthStyle = .fixed
-            } else {
-                self.segmentWidthStyle = newValue
             }
-        }
-        get {
-            return self.segmentWidthStyle
         }
     }
     
     /// Specifies the location of the selection indicator.
     /// Default is `up`
-    var selectionIndicatorLocation: TZSegmentedControlSelectionIndicatorLocation = .up {
+    public var selectionIndicatorLocation: TZSegmentedControlSelectionIndicatorLocation = .up {
         didSet {
             if self.selectionIndicatorLocation == .none {
                 self.selectionIndicatorHeight = 0.0
@@ -154,7 +151,7 @@ open class TZSegmentedControl: UIControl {
     
     /// Specifies the border type.
     /// Default is `none`
-    var borderType: TZSegmentedControlBorderType = .none {
+    public var borderType: TZSegmentedControlBorderType = .none {
         didSet {
             self.setNeedsDisplay()
         }
@@ -162,26 +159,26 @@ open class TZSegmentedControl: UIControl {
     
     /// Specifies the border color.
     /// Default is `black`
-    var borderColor = UIColor.black
+    public var borderColor = UIColor.black
     
     /// Specifies the border width.
     /// Default is `1.0f`
-    var borderWidth: CGFloat = 1.0
+    public var borderWidth: CGFloat = 1.0
     
     
     /// Default is NO. Set to YES to show a vertical divider between the segments.
-    var verticalDividerEnabled = false
+    public var verticalDividerEnabled = false
     
     /// Index of the currently selected segment.
-    var selectedSegmentIndex: Int = 0
+    public var selectedSegmentIndex: Int = 0
     
     /// Height of the selection indicator stripe.
-    var selectionIndicatorHeight: CGFloat = 5.0
+    public var selectionIndicatorHeight: CGFloat = 5.0
     
-    var edgeInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-    var selectionEdgeInset = UIEdgeInsets.zero
-    var verticalDividerWidth = 1.0
-    var selectionIndicatorBoxOpacity : Float = 0.2
+    public var edgeInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    public var selectionEdgeInset = UIEdgeInsets.zero
+    public var verticalDividerWidth = 1.0
+    public var selectionIndicatorBoxOpacity : Float = 0.5
     
     ///MARK: Private variable
     internal var selectionIndicatorStripLayer = CALayer()
@@ -207,23 +204,25 @@ open class TZSegmentedControl: UIControl {
     /// Initialiaze the segmented control with only titles.
     ///
     /// - Parameter sectionTitles: array of strings for the section title
-    convenience init(sectionTitles titles: [String]) {
+    public convenience init(sectionTitles titles: [String]) {
         self.init()
         self.setup()
         self.sectionTitles = titles
         self.type = .text
+        self.postInitMethod()
     }
     
     /// Initialiaze the segmented control with only images/icons.
     ///
     /// - Parameter sectionImages: array of images for the section images.
     /// - Parameter selectedImages: array of images for the selected section images.
-    convenience init(sectionImages images: [UIImage], selectedImages sImages: [UIImage]) {
+    public convenience init(sectionImages images: [UIImage], selectedImages sImages: [UIImage]) {
         self.init()
         self.setup()
         self.sectionImages = images
         self.sectionSelectedImages = sImages
         self.type = .images
+        self.postInitMethod()
     }
     
     /// Initialiaze the segmented control with both titles and images/icons.
@@ -231,7 +230,7 @@ open class TZSegmentedControl: UIControl {
     /// - Parameter sectionTitles: array of strings for the section title
     /// - Parameter sectionImages: array of images for the section images.
     /// - Parameter selectedImages: array of images for the selected section images.
-    convenience init(sectionTitles titles: [String], sectionImages images: [UIImage],
+    public convenience init(sectionTitles titles: [String], sectionImages images: [UIImage],
                      selectedImages sImages: [UIImage]) {
         self.init()
         self.setup()
@@ -241,14 +240,18 @@ open class TZSegmentedControl: UIControl {
         self.type = .textImages
         
         assert(sectionTitles.count != sectionSelectedImages.count, "Titles and images are not in correct count")
-        
+        self.postInitMethod()
     }
     
     private func setup(){
         self.addSubview(self.scrollView)
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor.lightGray
         self.isOpaque = false
         self.contentMode = .redraw
+    }
+    
+    open func postInitMethod(){
+        
     }
     
     //MARK: - View LifeCycle
@@ -272,7 +275,9 @@ open class TZSegmentedControl: UIControl {
         let selected = (index == self.selectedSegmentIndex)
         var size = CGSize.zero
         if self.titleFormatter == nil {
-            size = (title as NSString).size(attributes: selected ? selectedTitleTextAttributes : titleTextAttributes)
+            size = (title as NSString).size(
+                attributes: selected ?
+                    self.finalSelectedTitleAttributes() : self.finalTitleAttributes())
         } else {
             size = self.titleFormatter!(self, title, index, selected).size()
         }
@@ -284,7 +289,7 @@ open class TZSegmentedControl: UIControl {
         let selected = (index == self.selectedSegmentIndex)
         var str = NSAttributedString()
         if self.titleFormatter == nil {
-            let attr = selected ? selectedTitleTextAttributes : titleTextAttributes
+            let attr = selected ? self.finalSelectedTitleAttributes() : self.finalTitleAttributes()
             str = NSAttributedString(string: title, attributes: attr)
         } else {
             str = self.titleFormatter!(self, title, index, selected)
@@ -292,7 +297,7 @@ open class TZSegmentedControl: UIControl {
         return str
     }
     
-    override func draw(_ rect: CGRect) {
+    override open func draw(_ rect: CGRect) {
         self.backgroundColor.setFill()
         UIRectFill(self.bounds)
         
@@ -315,8 +320,8 @@ open class TZSegmentedControl: UIControl {
                 var fullRect = CGRect.zero
                 
                 // Text inside the CATextLayer will appear blurry unless the rect values are rounded
-                let isLocationUp : CGFloat = (self.selectionIndicatorLocation == .up) ? 0.0 : 1.0
-                let isBoxStyle : CGFloat = (self.selectionStyle == .box) ? 0.0 : 1.0
+                let isLocationUp : CGFloat = (self.selectionIndicatorLocation != .up) ? 0.0 : 1.0
+                let isBoxStyle : CGFloat = (self.selectionStyle != .box) ? 0.0 : 1.0
                 
                 let a : CGFloat = (self.frame.height - (isBoxStyle * self.selectionIndicatorHeight)) / 2
                 let b : CGFloat = (strHeight / 2) + (self.selectionIndicatorHeight * isLocationUp)
@@ -324,7 +329,7 @@ open class TZSegmentedControl: UIControl {
                 
                 var newRect = CGRect.zero
                 if self.segmentWidthStyle == .fixed {
-                    var xPosition : CGFloat = CGFloat((self.segmentWidth * CGFloat(index)) + (self.segmentWidth - strWidth) / 2)
+                    let xPosition : CGFloat = CGFloat((self.segmentWidth * CGFloat(index)) + (self.segmentWidth - strWidth) / 2)
                     newRect = CGRect(x: xPosition,
                                      y: yPosition,
                                      width: strWidth,
@@ -459,23 +464,22 @@ open class TZSegmentedControl: UIControl {
                 
                 self.addBgAndBorderLayer(with: imageRect)
             }
-            
-            // Add the selection indicators
-            if self.selectedSegmentIndex != TZSegmentedControlNoSegment {
-                if self.selectionStyle == .arrow {
-                    if (self.selectionIndicatorArrowLayer.superlayer != nil) {
-                        self.setArrowFrame()
-                        self.scrollView.layer.addSublayer(self.selectionIndicatorArrowLayer)
-                    }
-                } else {
-                    if (self.selectionIndicatorStripLayer.superlayer != nil) {
-                        self.selectionIndicatorStripLayer.frame = self.frameForSelectionIndicator()
-                        self.scrollView.layer.addSublayer(self.selectionIndicatorStripLayer)
-                        
-                        if self.selectionStyle == .box && self.selectionIndicatorBoxLayer.superlayer != nil {
-                            self.selectionIndicatorBoxLayer.frame = self.frameForSelectionIndicator()
-                            self.scrollView.layer.insertSublayer(self.selectionIndicatorBoxLayer, at: 0)
-                        }
+        }
+        // Add the selection indicators
+        if self.selectedSegmentIndex != TZSegmentedControlNoSegment {
+            if self.selectionStyle == .arrow {
+                if (self.selectionIndicatorArrowLayer.superlayer == nil) {
+                    self.setArrowFrame()
+                    self.scrollView.layer.addSublayer(self.selectionIndicatorArrowLayer)
+                }
+            } else {
+                if (self.selectionIndicatorStripLayer.superlayer == nil) {
+                    self.selectionIndicatorStripLayer.frame = self.frameForSelectionIndicator()
+                    self.scrollView.layer.addSublayer(self.selectionIndicatorStripLayer)
+                    
+                    if self.selectionStyle == .box && self.selectionIndicatorBoxLayer.superlayer != nil {
+                        self.selectionIndicatorBoxLayer.frame = self.frameForFillerSelectionIndicator()
+                        self.scrollView.layer.insertSublayer(self.selectionIndicatorBoxLayer, at: 0)
                     }
                 }
             }
@@ -616,8 +620,8 @@ open class TZSegmentedControl: UIControl {
                                   height: self.selectionIndicatorHeight + self.edgeInset.bottom)
                 }
                 
-                let xPos = (self.segmentWidth + self.edgeInset.left) * CGFloat(self.selectedSegmentIndex)
-                return CGRect(x: xPos, y: indicatorYOffset, width: (self.segmentWidth - self.edgeInset.right), height: self.selectionIndicatorHeight)
+                let xPos = (self.segmentWidth * CGFloat(self.selectedSegmentIndex)) + self.edgeInset.left
+                return CGRect(x: xPos, y: indicatorYOffset, width: (self.segmentWidth - self.edgeInset.right - self.edgeInset.left), height: self.selectionIndicatorHeight)
             }
         }
     }
@@ -699,19 +703,6 @@ open class TZSegmentedControl: UIControl {
         }
     }
     
-    private func totalSegmentedControlWidth() -> CGFloat {
-        if self.type != .images {
-            if self.segmentWidthStyle == .fixed {
-                return CGFloat(self.sectionTitles.count) * self.segmentWidth
-            } else {
-                let sum = self.segmentWidthsArray.reduce(0,+)
-                return sum
-            }
-        } else {
-            return CGFloat(self.sectionImages.count) * self.segmentWidth
-        }
-    }
-    
     var enlargeEdgeInset = UIEdgeInsets.zero
     
     //MARK: - Touch Methods
@@ -751,14 +742,145 @@ open class TZSegmentedControl: UIControl {
             
             if segment != self.selectedSegmentIndex && segment < sectionsCount {
                 // Check if we have to do anything with the touch event
-                
+                self.setSelected(forIndex: segment, animated: true, shouldNotify: true)
             }
-
-//            if (segment != self.selectedSegmentIndex && segment < sectionsCount) {
-//                // Check if we have to do anything with the touch event
-//                if (self.isTouchEnabled)
-//                [self setSelectedSegmentIndex:segment animated:self.shouldAnimateUserSelection notify:YES];
-//            }
         }
+    }
+    
+    //MARK: - Scrolling 
+    private func totalSegmentedControlWidth() -> CGFloat {
+        if self.type != .images {
+            if self.segmentWidthStyle == .fixed {
+                return CGFloat(self.sectionTitles.count) * self.segmentWidth
+            } else {
+                let sum = self.segmentWidthsArray.reduce(0,+)
+                return sum
+            }
+        } else {
+            return CGFloat(self.sectionImages.count) * self.segmentWidth
+        }
+    }
+    
+    func scrollToSelectedSegmentIndex(animated: Bool) {
+        var rectForSelectedIndex = CGRect.zero
+        var selectedSegmentOffset : CGFloat = 0
+        if self.segmentWidthStyle == .fixed {
+            rectForSelectedIndex = CGRect(x: (self.segmentWidth * CGFloat(self.selectedSegmentIndex)),
+                                          y: 0,
+                                          width: self.segmentWidth, height: self.frame.height)
+            selectedSegmentOffset = (self.frame.width / 2) - (self.segmentWidth / 2)
+        } else {
+            var i = 0
+            var offsetter: CGFloat = 0
+            for width in self.segmentWidthsArray {
+                if self.selectedSegmentIndex == i {
+                    break
+                }
+                offsetter += width
+                i += 1
+            }
+            rectForSelectedIndex = CGRect(x: offsetter, y: 0,
+                                          width: self.segmentWidthsArray[self.selectedSegmentIndex],
+                                          height: self.frame.height)
+            selectedSegmentOffset = (self.frame.width / 2) - (self.segmentWidthsArray[self.selectedSegmentIndex] / 2)
+        }
+        rectForSelectedIndex.origin.x -= selectedSegmentOffset
+        rectForSelectedIndex.size.width += selectedSegmentOffset * 2
+        self.scrollView.scrollRectToVisible(rectForSelectedIndex, animated: animated)
+    }
+    
+    //MARK: - Index Change 
+    func setSelected(forIndex index: Int, animated: Bool) {
+        self.setSelected(forIndex: index, animated: animated, shouldNotify: false)
+    }
+    
+    func setSelected(forIndex index: Int, animated: Bool, shouldNotify: Bool) {
+        self.selectedSegmentIndex = index
+        self.setNeedsDisplay()
+        
+        if index == TZSegmentedControlNoSegment {
+            self.selectionIndicatorBoxLayer.removeFromSuperlayer()
+            self.selectionIndicatorArrowLayer.removeFromSuperlayer()
+            self.selectionIndicatorStripLayer.removeFromSuperlayer()
+        } else {
+            self.scrollToSelectedSegmentIndex(animated: animated)
+            
+            if animated {
+                // If the selected segment layer is not added to the super layer, that means no
+                // index is currently selected, so add the layer then move it to the new
+                // segment index without animating.
+                if self.selectionStyle == .arrow {
+                    if self.selectionIndicatorArrowLayer.superlayer == nil {
+                        self.scrollView.layer.addSublayer(self.selectionIndicatorArrowLayer)
+                        self.setSelected(forIndex: index, animated: false, shouldNotify: true)
+                        return
+                    }
+                } else {
+                    if self.selectionIndicatorStripLayer.superlayer == nil {
+                        self.scrollView.layer.addSublayer(self.selectionIndicatorStripLayer)
+                        if self.selectionStyle == .box && self.selectionIndicatorBoxLayer.superlayer == nil {
+                            self.scrollView.layer.insertSublayer(self.selectionIndicatorBoxLayer, at: 0)
+                        }
+                        self.setSelected(forIndex: index, animated: false, shouldNotify: true)
+                        return
+                    }
+                }
+                if shouldNotify {
+                    self.notifyForSegmentChange(toIndex: index)
+                }
+                
+                // Restore CALayer animations
+                self.selectionIndicatorArrowLayer.actions = nil
+                self.selectionIndicatorStripLayer.actions = nil
+                self.selectionIndicatorBoxLayer.actions = nil
+
+                // Animate to new position
+                CATransaction.begin()
+                CATransaction.setAnimationDuration(0.15)
+                CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+                self.setArrowFrame()
+                self.selectionIndicatorBoxLayer.frame = self.frameForFillerSelectionIndicator()
+                self.selectionIndicatorStripLayer.frame = self.frameForSelectionIndicator()
+                CATransaction.commit()
+                
+            } else {
+                // Disable CALayer animations
+                self.selectionIndicatorArrowLayer.actions = nil
+                self.setArrowFrame()
+                self.selectionIndicatorStripLayer.actions = nil
+                self.selectionIndicatorStripLayer.frame = self.frameForSelectionIndicator()
+                self.selectionIndicatorBoxLayer.actions = nil
+                self.selectionIndicatorBoxLayer.frame = self.frameForFillerSelectionIndicator()
+                if shouldNotify {
+                    self.notifyForSegmentChange(toIndex: index)
+                }
+            }
+        }
+    }
+    
+    private func notifyForSegmentChange(toIndex index:Int){
+        if self.superview != nil {
+            self.sendActions(for: .valueChanged)
+        }
+        self.indexChangeBlock?(index)
+    }
+    
+    //MARK: - Styliing Support
+    private func finalTitleAttributes() -> [String:Any] {
+        let defaults : [String:Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 16),
+                        NSForegroundColorAttributeName: UIColor.black]
+        if self.titleTextAttributes != nil {
+            defaults.forEach { (k,v) in self.titleTextAttributes![k] = v }
+        }
+        return defaults
+    }
+    
+    private func finalSelectedTitleAttributes() -> [String:Any] {
+        let defaults : [String:Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 16),
+                                       NSForegroundColorAttributeName: UIColor.blue]
+        if self.selectedTitleTextAttributes != nil {
+            defaults.forEach { (k,v) in self.selectedTitleTextAttributes![k] = v }
+        }
+        return defaults
     }
 }
