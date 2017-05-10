@@ -14,10 +14,13 @@ class ViewController: UIViewController, SegmentedControlDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let cont = SegmentedControl(sectionTitles: ["Section 1","Section 2","Section 3","Section 4","Section 5","Section 3","Section 4","Section 5"])
+        let cont = SegmentedControl(sectionTitles: ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE" ])
         cont.selectionDelegate = self
-        cont.frame = CGRect(x: 0, y: 20, width: self.view.frame.width, height: 50)
+        cont.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: 50)
+        cont.verticalDividerEnabled = false
+        cont.indicatorWidthPercent = 0.8
         self.view.addSubview(cont)
+        
         
     }
 

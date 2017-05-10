@@ -20,20 +20,21 @@ class SegmentedControl: TZSegmentedControl {
     override func postInitMethod() {
         let whitishColor = UIColor(white: 0.75, alpha: 1.0)
         self.backgroundColor = UIColor.white
-        self.borderType = .bottom
+        self.borderType = .none
         self.borderColor = whitishColor
         self.borderWidth = 0.5
-        self.segmentWidthStyle = .fixed
+        self.segmentWidthStyle = .dynamic
         self.verticalDividerEnabled = true
         self.verticalDividerWidth = 0.5
         self.verticalDividerColor = whitishColor
         self.selectionStyle = .fullWidth
         self.selectionIndicatorLocation = .down
-        self.selectionIndicatorColor = UIColor.green
+        self.selectionIndicatorColor = UIColor.blue
         self.selectionIndicatorHeight = 2.0
+        self.edgeInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         self.selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.blue]
         self.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray,
-                                    NSFontAttributeName:UIFont.systemFont(ofSize: 19.0)]
+                                    NSFontAttributeName:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
         
     }
     
