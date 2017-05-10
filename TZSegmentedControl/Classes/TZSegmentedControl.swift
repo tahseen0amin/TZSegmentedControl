@@ -732,6 +732,7 @@ open class TZSegmentedControl: UIControl {
         let touch = touches.first
         guard let touchesLocation = touch?.location(in: self) else {
             assert(false, "Touch Location not found")
+            return
         }
         let enlargeRect = CGRect(x: self.bounds.origin.x - self.enlargeEdgeInset.left,
                                  y: self.bounds.origin.y - self.enlargeEdgeInset.top,
