@@ -10,10 +10,10 @@ import UIKit
 
 /// Selection Style for the Segmented control
 ///
-/// - parameter textWidth : Indicator width will only be as big as the text width
-/// - parameter fullWidth : Indicator width will fill the whole segment
-/// - parameter box : A rectangle that covers the whole segment
-/// - parameter arrow : An arrow in the middle of the segment pointing up or down depending
+/// - Parameter textWidth : Indicator width will only be as big as the text width
+/// - Parameter fullWidth : Indicator width will fill the whole segment
+/// - Parameter box : A rectangle that covers the whole segment
+/// - Parameter arrow : An arrow in the middle of the segment pointing up or down depending
 ///                     on `TZSegmentedControlSelectionIndicatorLocation`
 ///
 public enum TZSegmentedControlSelectionStyle {
