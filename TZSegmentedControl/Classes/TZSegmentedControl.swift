@@ -603,8 +603,16 @@ open class TZSegmentedControl: UIControl {
         var indicatorFrame = CGRect.zero
         
         if self.selectionStyle == .arrow {
-            let widthToStartOfSelIndex : CGFloat = CGFloat(self.selectedSegmentIndex) * self.segmentWidth
-            let widthToEndOfSelIndex : CGFloat = widthToStartOfSelIndex + self.segmentWidth
+            var widthToStartOfSelIndex : CGFloat = 0.0
+            var widthToEndOfSelIndex : CGFloat = 0.0
+            if (self.segmentWidthStyle == .dynamic) {
+                let a = self.getDynamicWidthTillSegmentIndex()
+                widthToStartOfSelIndex = a.0
+                widthToEndOfSelIndex = widthToStartOfSelIndex + a.1
+            } else {
+                widthToStartOfSelIndex = CGFloat(self.selectedSegmentIndex) * self.segmentWidth
+                widthToEndOfSelIndex = widthToStartOfSelIndex + self.segmentWidth
+            }
             let xPos = widthToStartOfSelIndex + ((widthToEndOfSelIndex - widthToStartOfSelIndex) / 2) - (self.selectionIndicatorHeight)
             indicatorFrame = CGRect(x: xPos, y: indicatorYOffset, width: self.selectionIndicatorHeight * 2, height: self.selectionIndicatorHeight)
         } else {
@@ -638,14 +646,31 @@ open class TZSegmentedControl: UIControl {
             }
         }
         
-        let currentIndicatorWidth = indicatorFrame.size.width
-        let widthToMinus = CGFloat(1 - self.indicatorWidthPercent) * currentIndicatorWidth
-        // final width
-        indicatorFrame.size.width = currentIndicatorWidth - widthToMinus
-        // frame position
-        indicatorFrame.origin.x += widthToMinus / 2
+        if self.selectionStyle != .arrow {
+            let currentIndicatorWidth = indicatorFrame.size.width
+            let widthToMinus = CGFloat(1 - self.indicatorWidthPercent) * currentIndicatorWidth
+            // final width
+            indicatorFrame.size.width = currentIndicatorWidth - widthToMinus
+            // frame position
+            indicatorFrame.origin.x += widthToMinus / 2
+        }
         
         return indicatorFrame
+    }
+    
+    private func getDynamicWidthTillSegmentIndex() -> (CGFloat, CGFloat){
+        var selectedSegmentOffset : CGFloat = 0
+        var i = 0
+        var selectedSegmentWidth : CGFloat = 0
+        for width in self.segmentWidthsArray {
+            if self.selectedSegmentIndex == i {
+                selectedSegmentWidth = width
+                break
+            }
+            selectedSegmentOffset += width
+            i += 1
+        }
+        return (selectedSegmentOffset, selectedSegmentWidth)
     }
     
     private func frameForFillerSelectionIndicator() -> CGRect {
@@ -654,7 +679,7 @@ open class TZSegmentedControl: UIControl {
             var i = 0
             for width in self.segmentWidthsArray {
                 if self.selectedSegmentIndex == i {
-                    break;
+                    break
                 }
                 selectedSegmentOffset += width
                 i += 1
