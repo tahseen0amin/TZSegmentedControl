@@ -420,23 +420,15 @@ open class TZSegmentedControl: UIControl {
                     textWidth = self.segmentWidth
                 } else {
                     // When we are drawing dynamic widths, we need to loop the widths array to calculate the xOffset
-                    var xOffset : CGFloat = 0.0
-                    var i = 0
-                    for width in self.segmentWidthsArray {
-                        if i == 1 {
-                            break
-                        }
-                        xOffset += width
-                        i += 1
-                    }
-                    
-                    imagexOffset = xOffset + (self.segmentWidthsArray[index] / 2) - (imageWidth / 2)
-                    textxOffset = xOffset
+                    let a = self.getDynamicWidthTillSegmentIndex(index: index)
+                    imagexOffset = a.0 + (a.1 / 2) - (imageWidth / 2)
+                    textxOffset = a.0
                     textWidth = self.segmentWidthsArray[index]
                 }
                 
                 let imageyOffset : CGFloat = CGFloat(roundf(Float(
-                    ((self.frame.height - self.selectionIndicatorHeight) / 2))))
+                    ((self.frame.height - self.selectionIndicatorHeight) / 2) + 8.0)))
+                
                 let imageRect = CGRect(x: imagexOffset, y: imageyOffset, width: imageWidth, height: imageHeight)
                 var textRect = CGRect(x: textxOffset, y: yOffset, width: textWidth, height: stringHeight)
                 
@@ -608,7 +600,7 @@ open class TZSegmentedControl: UIControl {
             var widthToStartOfSelIndex : CGFloat = 0.0
             var widthToEndOfSelIndex : CGFloat = 0.0
             if (self.segmentWidthStyle == .dynamic) {
-                let a = self.getDynamicWidthTillSegmentIndex()
+                let a = self.getDynamicWidthTillSegmentIndex(index: self.selectedSegmentIndex)
                 widthToStartOfSelIndex = a.0
                 widthToEndOfSelIndex = widthToStartOfSelIndex + a.1
             } else {
@@ -660,12 +652,12 @@ open class TZSegmentedControl: UIControl {
         return indicatorFrame
     }
     
-    private func getDynamicWidthTillSegmentIndex() -> (CGFloat, CGFloat){
+    private func getDynamicWidthTillSegmentIndex(index: Int) -> (CGFloat, CGFloat){
         var selectedSegmentOffset : CGFloat = 0
         var i = 0
         var selectedSegmentWidth : CGFloat = 0
         for width in self.segmentWidthsArray {
-            if self.selectedSegmentIndex == i {
+            if index == i {
                 selectedSegmentWidth = width
                 break
             }

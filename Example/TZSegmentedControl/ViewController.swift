@@ -9,19 +9,33 @@
 import UIKit
 import TZSegmentedControl
 
-class ViewController: UIViewController, SegmentedControlDelegate {
+class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let cont = SegmentedControl(sectionTitles: ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE" ])
-        cont.selectionDelegate = self
-        cont.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: 50)
-        cont.verticalDividerEnabled = false
-        cont.indicatorWidthPercent = 0.8
-        self.view.addSubview(cont)
-        
+        let titleCont = TZSegmentedControl(sectionTitles: ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE" ])
+        titleCont.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: 50)
+        titleCont.indicatorWidthPercent = 0.8
+        let whitishColor = UIColor(white: 0.75, alpha: 1.0)
+        titleCont.backgroundColor = UIColor.white
+        titleCont.borderType = .none
+        titleCont.borderColor = whitishColor
+        titleCont.borderWidth = 0.5
+        titleCont.segmentWidthStyle = .dynamic
+        titleCont.verticalDividerEnabled = false
+        titleCont.verticalDividerWidth = 0.5
+        titleCont.verticalDividerColor = whitishColor
+        titleCont.selectionStyle = .fullWidth
+        titleCont.selectionIndicatorLocation = .down
+        titleCont.selectionIndicatorColor = UIColor.blue
+        titleCont.selectionIndicatorHeight = 2.0
+        titleCont.edgeInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        titleCont.selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.blue]
+        titleCont.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray,
+                                    NSFontAttributeName:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
+        self.view.addSubview(titleCont)
 
         let imageCon = TZSegmentedControl(sectionImages: [UIImage(named: "1")!,
                                                           UIImage(named: "2")!,
@@ -38,6 +52,50 @@ class ViewController: UIViewController, SegmentedControlDelegate {
         imageCon.backgroundColor = UIColor.white
         self.view.addSubview(imageCon)
         
+        let imageCon2 = TZSegmentedControl(sectionTitles: ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE"], sectionImages: [UIImage(named: "1")!,
+                                                          UIImage(named: "2")!,
+                                                          UIImage(named: "3")!,
+                                                          UIImage(named: "4")!,
+                                                          UIImage(named: "3")!],
+                                          selectedImages: [UIImage(named: "1-selected")!,
+                                                           UIImage(named: "2-selected")!,
+                                                           UIImage(named: "3-selected")!,
+                                                           UIImage(named: "4-selected")!,
+                                                           UIImage(named: "3-selected")!])
+        imageCon2.frame = CGRect(x: 0, y: 180, width: self.view.frame.width, height: 90)
+        imageCon2.verticalDividerEnabled = false
+        imageCon2.indicatorWidthPercent = 0.8
+        imageCon2.selectionIndicatorColor = UIColor.gray
+        imageCon2.backgroundColor = UIColor.white
+        imageCon2.selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.blue]
+        imageCon2.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray,
+                                    NSFontAttributeName:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
+        imageCon2.indicatorWidthPercent = 0.0
+        self.view.addSubview(imageCon2)
+        
+        let titleCont1 = TZSegmentedControl(sectionTitles: ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE" ])
+        titleCont1.frame = CGRect(x: 0, y: 280, width: self.view.frame.width, height: 50)
+        titleCont1.indicatorWidthPercent = 0.0
+        titleCont1.backgroundColor = UIColor.white
+        titleCont1.borderColor = whitishColor
+        titleCont1.borderWidth = 0.5
+        titleCont1.segmentWidthStyle = .dynamic
+        titleCont1.verticalDividerEnabled = true
+        titleCont1.verticalDividerWidth = 0.5
+        titleCont1.verticalDividerColor = whitishColor
+        titleCont1.selectionStyle = .box
+        titleCont1.selectionIndicatorLocation = .down
+        titleCont1.selectionIndicatorColor = UIColor.green
+        titleCont1.selectionIndicatorHeight = 2.0
+        titleCont1.borderType = .top
+        titleCont1.edgeInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        titleCont1.selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+        titleCont1.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray,
+                                         NSFontAttributeName:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
+        self.view.addSubview(titleCont1)
+        
+        self.view.backgroundColor = UIColor(red: 0.3, green: 0.4, blue: 0.7, alpha: 0.7)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,8 +103,6 @@ class ViewController: UIViewController, SegmentedControlDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func segmentedControldidPressedAgainSelectedIndex(segmentedControl: SegmentedControl) {
-        print("Hurrray ****")
-    }
+
 }
 

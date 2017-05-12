@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		30B5302930813E5247BD3115 /* Pods_TZSegmentedControl_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE5DB95CFDF2EA6EDE7E012 /* Pods_TZSegmentedControl_Example.framework */; };
-		3CA6711F1EC194E300B337DD /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA6711E1EC194E300B337DD /* SegmentedControl.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -30,7 +29,6 @@
 
 /* Begin PBXFileReference section */
 		1C9697F0C204474AB29A5B8A /* Pods-TZSegmentedControl_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TZSegmentedControl_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TZSegmentedControl_Tests/Pods-TZSegmentedControl_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		3CA6711E1EC194E300B337DD /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		48CE019C3E5F77AACD4144A8 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* TZSegmentedControl_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TZSegmentedControl_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,7 +99,6 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
-				3CA6711E1EC194E300B337DD /* SegmentedControl.swift */,
 			);
 			name = "Example for TZSegmentedControl";
 			path = TZSegmentedControl;
@@ -366,7 +363,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
-				3CA6711F1EC194E300B337DD /* SegmentedControl.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
