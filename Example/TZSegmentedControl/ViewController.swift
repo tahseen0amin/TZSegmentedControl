@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TZSegmentedControl
 
 class ViewController: UIViewController, SegmentedControlDelegate {
 
@@ -21,6 +22,21 @@ class ViewController: UIViewController, SegmentedControlDelegate {
         cont.indicatorWidthPercent = 0.8
         self.view.addSubview(cont)
         
+
+        let imageCon = TZSegmentedControl(sectionImages: [UIImage(named: "1")!,
+                                                          UIImage(named: "2")!,
+                                                          UIImage(named: "3")!,
+                                                          UIImage(named: "4")!],
+                                          selectedImages: [UIImage(named: "1-selected")!,
+                                                           UIImage(named: "2-selected")!,
+                                                           UIImage(named: "3-selected")!,
+                                                           UIImage(named: "4-selected")!])
+        imageCon.frame = CGRect(x: 0, y: 120, width: self.view.frame.width, height: 50)
+        imageCon.verticalDividerEnabled = false
+        imageCon.indicatorWidthPercent = 0.8
+        imageCon.selectionIndicatorColor = UIColor.gray
+        imageCon.backgroundColor = UIColor.white
+        self.view.addSubview(imageCon)
         
     }
 

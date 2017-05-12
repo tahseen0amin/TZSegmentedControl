@@ -1,4 +1,4 @@
-//
+ //
 //  TZSegmentedControl.swift
 //  Pods
 //
@@ -99,8 +99,8 @@ open class TZSegmentedControl: UIControl {
     /// Color for the selection indicator stripe
     public var selectionIndicatorColor: UIColor = .black {
         didSet {
-            self.selectionIndicator.backgroundColor = selectionIndicatorColor
-            self.selectionIndicatorBoxColor = selectionIndicatorColor
+            self.selectionIndicator.backgroundColor = self.selectionIndicatorColor
+            self.selectionIndicatorBoxColor = self.selectionIndicatorColor
         }
     }
     
@@ -113,11 +113,11 @@ open class TZSegmentedControl: UIControl {
     
     /// Color for the selection indicator box
     /// Default is selectionIndicatorColor
-    dynamic open var selectionIndicatorBoxColor : UIColor!;
+    public var selectionIndicatorBoxColor : UIColor!
     
     /// Color for the vertical divider between segments.
     /// Default is `[UIColor blackColor]`
-    dynamic open var verticalDividerColor : UIColor!;
+    public var verticalDividerColor = UIColor.black
     
     //TODO Add other visual apperance properities
     
@@ -141,7 +141,7 @@ open class TZSegmentedControl: UIControl {
     
     /// Specifies the location of the selection indicator.
     /// Default is `up`
-    public var selectionIndicatorLocation: TZSegmentedControlSelectionIndicatorLocation = .up {
+    public var selectionIndicatorLocation: TZSegmentedControlSelectionIndicatorLocation = .down {
         didSet {
             if self.selectionIndicatorLocation == .none {
                 self.selectionIndicatorHeight = 0.0
@@ -178,7 +178,7 @@ open class TZSegmentedControl: UIControl {
     public var edgeInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     public var selectionEdgeInset = UIEdgeInsets.zero
     public var verticalDividerWidth = 1.0
-    public var selectionIndicatorBoxOpacity : Float = 0.5
+    public var selectionIndicatorBoxOpacity : Float = 0.3
     
     ///MARK: Private variable
     internal var selectionIndicatorStripLayer = CALayer()
@@ -222,6 +222,7 @@ open class TZSegmentedControl: UIControl {
         self.sectionImages = images
         self.sectionSelectedImages = sImages
         self.type = .images
+        self.segmentWidthStyle = .fixed
         self.postInitMethod()
     }
     
@@ -239,7 +240,7 @@ open class TZSegmentedControl: UIControl {
         self.sectionSelectedImages = sImages
         self.type = .textImages
         
-        assert(sectionTitles.count != sectionSelectedImages.count, "Titles and images are not in correct count")
+        assert(sectionTitles.count == sectionSelectedImages.count, "Titles and images are not in correct count")
         self.postInitMethod()
     }
     
@@ -477,8 +478,9 @@ open class TZSegmentedControl: UIControl {
                     self.selectionIndicatorStripLayer.frame = self.frameForSelectionIndicator()
                     self.scrollView.layer.addSublayer(self.selectionIndicatorStripLayer)
                     
-                    if self.selectionStyle == .box && self.selectionIndicatorBoxLayer.superlayer != nil {
+                    if self.selectionStyle == .box && self.selectionIndicatorBoxLayer.superlayer == nil {
                         self.selectionIndicatorBoxLayer.frame = self.frameForFillerSelectionIndicator()
+                        self.selectionIndicatorBoxLayer.opacity = self.selectionIndicatorBoxOpacity
                         self.scrollView.layer.insertSublayer(self.selectionIndicatorBoxLayer, at: 0)
                     }
                 }
