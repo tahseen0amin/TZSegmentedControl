@@ -57,12 +57,14 @@ open class TZSegmentedControl: UIControl {
 
     public var sectionTitles : [String]! {
         didSet {
+            self.updateSegmentsRects()
             self.setNeedsLayout()
             self.setNeedsDisplay()
         }
     }
     public var sectionImages: [UIImage]! {
         didSet {
+            self.updateSegmentsRects()
             self.setNeedsLayout()
             self.setNeedsDisplay()
         }
@@ -113,7 +115,7 @@ open class TZSegmentedControl: UIControl {
     
     /// Color for the selection indicator box
     /// Default is selectionIndicatorColor
-    public var selectionIndicatorBoxColor : UIColor!
+    public var selectionIndicatorBoxColor : UIColor = .black
     
     /// Color for the vertical divider between segments.
     /// Default is `[UIColor blackColor]`
@@ -244,6 +246,11 @@ open class TZSegmentedControl: UIControl {
         self.postInitMethod()
     }
     
+    open override func awakeFromNib() {
+        self.setup()
+        self.postInitMethod()
+    }
+    
     private func setup(){
         self.addSubview(self.scrollView)
         self.backgroundColor = UIColor.lightGray
@@ -313,6 +320,9 @@ open class TZSegmentedControl: UIControl {
         let oldrect = rect
         
         if self.type == .text {
+            if sectionTitles == nil {
+                return
+            }
             for (index, _) in self.sectionTitles.enumerated() {
                 let size = self.measureTitleAtIndex(index: index)
                 let strWidth  = size.width
@@ -374,6 +384,9 @@ open class TZSegmentedControl: UIControl {
                 self.addBgAndBorderLayer(with: fullRect)
             }
         } else if self.type == .images {
+            if sectionImages == nil {
+                return
+            }
             for (index, image) in self.sectionImages.enumerated() {
                 let imageWidth = image.size.width
                 let imageHeight = image.size.height
@@ -401,6 +414,9 @@ open class TZSegmentedControl: UIControl {
                 self.addBgAndBorderLayer(with: newRect)
             }
         } else if self.type == .textImages {
+            if sectionImages == nil {
+                return
+            }
             for (index, image) in self.sectionImages.enumerated() {
                 let imageWidth = image.size.width
                 let imageHeight = image.size.height

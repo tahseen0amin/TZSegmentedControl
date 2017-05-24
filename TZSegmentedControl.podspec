@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TZSegmentedControl'
-  s.version          = '0.2.0'
+  s.version          = '0.2.2'
   s.summary          = 'A scrollable segmented control view.'
 
 # This description is used to generate tags and improve search results.

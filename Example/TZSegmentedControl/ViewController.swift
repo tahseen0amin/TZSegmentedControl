@@ -96,6 +96,10 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = UIColor(red: 0.3, green: 0.4, blue: 0.7, alpha: 0.7)
         
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 30000)) {
+            self.segControlFromNib!.sectionTitles = ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE" ]
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -103,6 +107,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBOutlet var segControlFromNib : TZSegmentedControl!
 
 }
 
