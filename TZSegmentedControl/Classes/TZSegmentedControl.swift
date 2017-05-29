@@ -848,11 +848,11 @@ open class TZSegmentedControl: UIControl {
     }
     
     //MARK: - Index Change 
-    func setSelected(forIndex index: Int, animated: Bool) {
+    public func setSelected(forIndex index: Int, animated: Bool) {
         self.setSelected(forIndex: index, animated: animated, shouldNotify: false)
     }
     
-    func setSelected(forIndex index: Int, animated: Bool, shouldNotify: Bool) {
+    public func setSelected(forIndex index: Int, animated: Bool, shouldNotify: Bool) {
         self.selectedSegmentIndex = index
         self.setNeedsDisplay()
         
