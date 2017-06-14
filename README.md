@@ -1,10 +1,10 @@
-# TZSegmentedControl
-A swift replacement of HMSegmentedControl by Hesham Megid. A drop-in replacement for UISegmentedControl mimicking the style of the segmented control used in Google Currents and various other Google products.
-
+# TZSegmentedControl 
 [![CI Status](http://img.shields.io/travis/tahseen0amin@gmail.com/TZSegmentedControl.svg?style=flat)](https://travis-ci.org/tahseen0amin@gmail.com/TZSegmentedControl)
 [![Version](https://img.shields.io/cocoapods/v/TZSegmentedControl.svg?style=flat)](http://cocoapods.org/pods/TZSegmentedControl)
 [![License](https://img.shields.io/cocoapods/l/TZSegmentedControl.svg?style=flat)](http://cocoapods.org/pods/TZSegmentedControl)
 [![Platform](https://img.shields.io/cocoapods/p/TZSegmentedControl.svg?style=flat)](http://cocoapods.org/pods/TZSegmentedControl)
+
+A swift replacement of HMSegmentedControl by Hesham Megid. A drop-in replacement for UISegmentedControl mimicking the style of the segmented control used in Google Currents and various other Google products.
 
 ## Example
 
@@ -23,7 +23,7 @@ it, simply add the following line to your Podfile:
 pod "TZSegmentedControl"
 ```
 
-## Usage
+## Usage 
 Please check code in Example Project to see how you can customize the TZSegmentedControl.
 
 For creating a new TZSegmentedControl
@@ -40,11 +40,9 @@ titleCont.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: 50)
  ```
 
 ## Author
-
 tahseen0amin@gmail.com, tahseen0amin@gmail.com
 
 ## License
-
 TZSegmentedControl is available under the MIT license. See the LICENSE file for more info.
 
 ## Thanks
