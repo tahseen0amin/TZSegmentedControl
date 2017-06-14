@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/cocoapods/l/TZSegmentedControl.svg?style=flat)](http://cocoapods.org/pods/TZSegmentedControl)
 [![Platform](https://img.shields.io/cocoapods/p/TZSegmentedControl.svg?style=flat)](http://cocoapods.org/pods/TZSegmentedControl)
 
-A swift replacement of HMSegmentedControl by Hesham Megid. A drop-in replacement for UISegmentedControl mimicking the style of the segmented control used in Google Currents and various other Google products.
+Swift alternative of HMSegmentedControl by Hesham Megid. A drop-in replacement for UISegmentedControl mimicking the style of the segmented control used in Google Currents and various other Google products.
 
 ## Example
 
