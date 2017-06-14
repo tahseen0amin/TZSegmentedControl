@@ -1,4 +1,5 @@
 # TZSegmentedControl
+A swift replacement of HMSegmentedControl by Hesham Megid. A drop-in replacement for UISegmentedControl mimicking the style of the segmented control used in Google Currents and various other Google products.
 
 [![CI Status](http://img.shields.io/travis/tahseen0amin@gmail.com/TZSegmentedControl.svg?style=flat)](https://travis-ci.org/tahseen0amin@gmail.com/TZSegmentedControl)
 [![Version](https://img.shields.io/cocoapods/v/TZSegmentedControl.svg?style=flat)](http://cocoapods.org/pods/TZSegmentedControl)
