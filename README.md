@@ -11,8 +11,8 @@ A swift replacement of HMSegmentedControl by Hesham Megid. A drop-in replacement
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
-Swift 3 and above
-iOS 9 and above
+- Swift 3 and above
+- iOS 9 and above
 
 ## Installation
 
@@ -38,7 +38,8 @@ titleCont.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: 50)
   debugPrint("Segmented \(titleCont.sectionTitles[index]) is visible now")
  }
  ```
-
+## Screenshot
+![screenshot](https://github.com/tahseen0amin/TZSegmentedControl/blob/master/Screen%20Shot%202017-06-14%20at%203.26.53%20PM.png)
 ## Author
 tahseen0amin@gmail.com, tahseen0amin@gmail.com
 
