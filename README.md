@@ -11,6 +11,8 @@ A swift replacement of HMSegmentedControl by Hesham Megid. A drop-in replacement
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+Swift 3 and above
+iOS 9 and above
 
 ## Installation
 
@@ -21,6 +23,22 @@ it, simply add the following line to your Podfile:
 pod "TZSegmentedControl"
 ```
 
+## Usage
+Please check code in Example Project to see how you can customize the TZSegmentedControl.
+
+For creating a new TZSegmentedControl
+```swift
+let titleCont = TZSegmentedControl(sectionTitles: ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE" ])
+titleCont.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: 50)
+```
+
+ TZSegmentedControl also provide a block to be executed when selected index is changed. Alternativly, you could use `addTarget:action:forControlEvents:`
+ ```swift
+ titleCont.indexChangeBlock = { (index) in
+  debugPrint("Segmented \(titleCont.sectionTitles[index]) is visible now")
+ }
+ ```
+
 ## Author
 
 tahseen0amin@gmail.com, tahseen0amin@gmail.com
@@ -28,3 +46,6 @@ tahseen0amin@gmail.com, tahseen0amin@gmail.com
 ## License
 
 TZSegmentedControl is available under the MIT license. See the LICENSE file for more info.
+
+## Thanks
+Thanks to Hesham Megid whose code in HMSegmentedControl was helpful.
