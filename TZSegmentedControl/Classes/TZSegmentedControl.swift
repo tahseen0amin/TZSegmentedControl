@@ -881,7 +881,19 @@
         }
         rectForSelectedIndex.origin.x -= selectedSegmentOffset
         rectForSelectedIndex.size.width += selectedSegmentOffset * 2
-        self.scrollView.scrollRectToVisible(rectForSelectedIndex, animated: animated)
+        
+        // Scroll to segment and apply segment alignment
+        switch (self.segmentAlignment) {
+        case .center:
+            var contentOffset:CGPoint = self.scrollView.contentOffset
+            contentOffset.x = rectForSelectedIndex.origin.x;
+            self.scrollView.setContentOffset(contentOffset, animated: true)
+            break;
+            
+            
+        case .edge: break
+            
+        }
     }
     
     //MARK: - Index Change
@@ -987,4 +999,4 @@
         }
     }
  }
-
+ 
