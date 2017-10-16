@@ -1,60 +1,65 @@
  //
-//  TZSegmentedControl.swift
-//  Pods
-//
-//  Created by Tasin Zarkoob on 05/05/17.
-//
-//
-
-import UIKit
-
-/// Selection Style for the Segmented control
-///
-/// - Parameter textWidth : Indicator width will only be as big as the text width
-/// - Parameter fullWidth : Indicator width will fill the whole segment
-/// - Parameter box : A rectangle that covers the whole segment
-/// - Parameter arrow : An arrow in the middle of the segment pointing up or down depending
-///                     on `TZSegmentedControlSelectionIndicatorLocation`
-///
-public enum TZSegmentedControlSelectionStyle {
+ //  TZSegmentedControl.swift
+ //  Pods
+ //
+ //  Created by Tasin Zarkoob on 05/05/17.
+ //
+ //
+ 
+ import UIKit
+ 
+ /// Selection Style for the Segmented control
+ ///
+ /// - Parameter textWidth : Indicator width will only be as big as the text width
+ /// - Parameter fullWidth : Indicator width will fill the whole segment
+ /// - Parameter box : A rectangle that covers the whole segment
+ /// - Parameter arrow : An arrow in the middle of the segment pointing up or down depending
+ ///                     on `TZSegmentedControlSelectionIndicatorLocation`
+ ///
+ public enum TZSegmentedControlSelectionStyle {
     case textWidth
     case fullWidth
     case box
     case arrow
-}
-
-public enum TZSegmentedControlSelectionIndicatorLocation{
+ }
+ 
+ public enum TZSegmentedControlSelectionIndicatorLocation{
     case up
     case down
     case none // No selection indicator
-}
-
-public enum TZSegmentedControlSegmentWidthStyle {
+ }
+ 
+ public enum TZSegmentedControlSegmentWidthStyle {
     case fixed      // Segment width is fixed
     case dynamic    // Segment width will only be as big as the text width (including inset)
-}
-
-public enum TZSegmentedControlBorderType {
+ }
+ 
+ public enum TZSegmentedControlSegmentAlignment {
+    case edge      // Segments align to the edges of the view
+    case center    // Selected segments are always centered in the view
+ }
+ 
+ public enum TZSegmentedControlBorderType {
     case none   // 0
     case top    // (1 << 0)
     case left   // (1 << 1)
     case bottom // (1 << 2)
     case right  // (1 << 3)
-}
-
-public enum TZSegmentedControlType {
+ }
+ 
+ public enum TZSegmentedControlType {
     case text
     case images
     case textImages
-}
-
-public let TZSegmentedControlNoSegment = -1
-
-public typealias IndexChangeBlock = ((Int) -> Void)
-public typealias TZTitleFormatterBlock = ((_ segmentedControl: TZSegmentedControl, _ title: String, _ index: Int, _ selected: Bool) -> NSAttributedString)
-
-open class TZSegmentedControl: UIControl {
-
+ }
+ 
+ public let TZSegmentedControlNoSegment = -1
+ 
+ public typealias IndexChangeBlock = ((Int) -> Void)
+ public typealias TZTitleFormatterBlock = ((_ segmentedControl: TZSegmentedControl, _ title: String, _ index: Int, _ selected: Bool) -> NSAttributedString)
+ 
+ open class TZSegmentedControl: UIControl {
+    
     public var sectionTitles : [String]! {
         didSet {
             self.updateSegmentsRects()
@@ -151,6 +156,8 @@ open class TZSegmentedControl: UIControl {
         }
     }
     
+    public var segmentAlignment: TZSegmentedControlSegmentAlignment = .edge
+    
     /// Specifies the border type.
     /// Default is `none`
     public var borderType: TZSegmentedControlBorderType = .none {
@@ -234,7 +241,7 @@ open class TZSegmentedControl: UIControl {
     /// - Parameter sectionImages: array of images for the section images.
     /// - Parameter selectedImages: array of images for the selected section images.
     public convenience init(sectionTitles titles: [String], sectionImages images: [UIImage],
-                     selectedImages sImages: [UIImage]) {
+                            selectedImages sImages: [UIImage]) {
         self.init()
         self.setup()
         self.sectionTitles = titles
@@ -273,7 +280,7 @@ open class TZSegmentedControl: UIControl {
         }
     }
     
-    //MARK: - Drawing 
+    //MARK: - Drawing
     
     private func measureTitleAtIndex(index : Int) -> CGSize {
         if index >= self.sectionTitles.count {
@@ -403,7 +410,7 @@ open class TZSegmentedControl: UIControl {
                 
                 if self.selectedSegmentIndex == index && self.sectionSelectedImages.count > index {
                     let highlightedImage = self.sectionSelectedImages[index]
-                        imageLayer.contents = highlightedImage.cgImage
+                    imageLayer.contents = highlightedImage.cgImage
                 }
                 
                 self.scrollView.layer.addSublayer(imageLayer)
@@ -556,7 +563,7 @@ open class TZSegmentedControl: UIControl {
     private func setArrowFrame(){
         self.selectionIndicatorArrowLayer.frame = self.frameForSelectionIndicator()
         self.selectionIndicatorArrowLayer.mask = nil;
-    
+        
         let arrowPath = UIBezierPath()
         var p1 = CGPoint.zero;
         var p2 = CGPoint.zero;
@@ -646,9 +653,9 @@ open class TZSegmentedControl: UIControl {
                         i += 1
                     }
                     indicatorFrame = CGRect(x: selectedSegmentOffset + self.edgeInset.left,
-                                  y: indicatorYOffset,
-                                  width: self.segmentWidthsArray[self.selectedSegmentIndex] - self.edgeInset.right - self.edgeInset.left,
-                                  height: self.selectionIndicatorHeight + self.edgeInset.bottom)
+                                            y: indicatorYOffset,
+                                            width: self.segmentWidthsArray[self.selectedSegmentIndex] - self.edgeInset.right - self.edgeInset.left,
+                                            height: self.selectionIndicatorHeight + self.edgeInset.bottom)
                 } else {
                     let xPos = (self.segmentWidth * CGFloat(self.selectedSegmentIndex)) + self.edgeInset.left
                     indicatorFrame = CGRect(x: xPos, y: indicatorYOffset, width: (self.segmentWidth - self.edgeInset.right - self.edgeInset.left), height: self.selectionIndicatorHeight)
@@ -713,7 +720,7 @@ open class TZSegmentedControl: UIControl {
             if self.segmentWidthStyle == .fixed {
                 for (index, _) in self.sectionTitles.enumerated() {
                     let stringWidth = self.measureTitleAtIndex(index: index).width +
-                                        self.edgeInset.left + self.edgeInset.right
+                        self.edgeInset.left + self.edgeInset.right
                     self.segmentWidth = max(stringWidth, self.segmentWidth)
                 }
             } else if self.segmentWidthStyle == .dynamic {
@@ -750,7 +757,37 @@ open class TZSegmentedControl: UIControl {
         }
         self.scrollView.isScrollEnabled = true
         self.scrollView.contentSize = CGSize(width: self.totalSegmentedControlWidth(), height: self.frame.height)
+        
+        
+        switch segmentAlignment {
+        case .center:
+            let count = self.sectionCount() - 1
+            self.scrollView.contentInset = UIEdgeInsets(top: 0,
+                                                        left: self.scrollView.bounds.size.width / 2.0 - widthOfSegment(index:0) / 2.0,
+                                                        bottom: 0,
+                                                        right: self.scrollView.bounds.size.width / 2.0 - widthOfSegment(index:count) / 2.0
+            )
+            
+            break
+            
+        case .edge: break
+            
+        }
+        
+        scrollToSelectedSegmentIndex(animated: false)
+        
     }
+    
+    private func widthOfSegment(index: NSInteger) -> CGFloat {
+        
+        return index < (self.segmentWidthsArray.count - 1)
+            ? CGFloat(self.segmentWidthsArray[index])
+            : 0.0
+        
+        
+    }
+    
+    
     
     private func sectionCount() -> Int {
         if self.type == .text {
@@ -779,7 +816,7 @@ open class TZSegmentedControl: UIControl {
             if self.segmentWidthStyle == .fixed {
                 segment = Int((touchesLocation.x + self.scrollView.contentOffset.x) / self.segmentWidth)
             } else {
-               // To know which segment the user touched, we need to loop over the widths and substract it from the x position.
+                // To know which segment the user touched, we need to loop over the widths and substract it from the x position.
                 var widthLeft = touchesLocation.x + self.scrollView.contentOffset.x
                 for width in self.segmentWidthsArray {
                     widthLeft -= width
@@ -805,7 +842,7 @@ open class TZSegmentedControl: UIControl {
         }
     }
     
-    //MARK: - Scrolling 
+    //MARK: - Scrolling
     private func totalSegmentedControlWidth() -> CGFloat {
         if self.type != .images {
             if self.segmentWidthStyle == .fixed {
@@ -847,7 +884,7 @@ open class TZSegmentedControl: UIControl {
         self.scrollView.scrollRectToVisible(rectForSelectedIndex, animated: animated)
     }
     
-    //MARK: - Index Change 
+    //MARK: - Index Change
     public func setSelected(forIndex index: Int, animated: Bool) {
         self.setSelected(forIndex: index, animated: animated, shouldNotify: false)
     }
@@ -891,7 +928,7 @@ open class TZSegmentedControl: UIControl {
                 self.selectionIndicatorArrowLayer.actions = nil
                 self.selectionIndicatorStripLayer.actions = nil
                 self.selectionIndicatorBoxLayer.actions = nil
-
+                
                 // Animate to new position
                 CATransaction.begin()
                 CATransaction.setAnimationDuration(0.15)
@@ -926,7 +963,7 @@ open class TZSegmentedControl: UIControl {
     //MARK: - Styliing Support
     private func finalTitleAttributes() -> [String:Any] {
         var defaults : [String:Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 16),
-                        NSForegroundColorAttributeName: UIColor.black]
+                                       NSForegroundColorAttributeName: UIColor.black]
         if self.titleTextAttributes != nil {
             defaults.merge(dict: self.titleTextAttributes!)
         }
@@ -941,12 +978,13 @@ open class TZSegmentedControl: UIControl {
         }
         return defaults
     }
-}
-
-extension Dictionary {
+ }
+ 
+ extension Dictionary {
     mutating func merge<K, V>(dict: [K: V]){
         for (k, v) in dict {
             self.updateValue(v as! Value, forKey: k as! Key)
         }
     }
-}
+ }
+
