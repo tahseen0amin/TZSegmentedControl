@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let titleCont = TZSegmentedControl(sectionTitles: ["TRENDING","EDITOR'S PICKS", "FOR YOU", "VIDEOS", "LANGUAGE" ])
+        let titleCont = TZSegmentedControl(sectionTitles: ["SEGMENT","ALIGNMENT", "FEATURE" ])
         titleCont.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: 50)
         titleCont.indicatorWidthPercent = 0.8
         let whitishColor = UIColor(white: 0.75, alpha: 1.0)
@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         titleCont.borderType = .none
         titleCont.borderColor = whitishColor
         titleCont.borderWidth = 0.5
+        titleCont.segmentAlignment = .center
         titleCont.segmentWidthStyle = .dynamic
         titleCont.verticalDividerEnabled = false
         titleCont.verticalDividerWidth = 0.5
