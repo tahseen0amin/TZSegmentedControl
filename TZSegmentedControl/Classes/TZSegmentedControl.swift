@@ -806,6 +806,25 @@
             assert(false, "Touch Location not found")
             return
         }
+     
+        //check to see if there are sections, if not then just return
+        var sectionTitleCount = 0
+        var sectionImagesCount = 0
+        
+        if sectionTitles != nil{
+            sectionTitleCount = sectionTitles.count
+        }
+        
+        if sectionImages != nil{
+            sectionImagesCount = sectionImages.count
+        }
+        
+        if sectionTitleCount == 0 && sectionImagesCount == 0{
+            return
+        }
+        //end check to see if there are sections
+     
+     
         let enlargeRect = CGRect(x: self.bounds.origin.x - self.enlargeEdgeInset.left,
                                  y: self.bounds.origin.y - self.enlargeEdgeInset.top,
                                  width: self.bounds.size.width + self.enlargeEdgeInset.left + self.enlargeEdgeInset.right,
