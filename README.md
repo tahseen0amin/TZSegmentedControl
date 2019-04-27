@@ -11,8 +11,8 @@ Swift alternative of HMSegmentedControl by Hesham Megid. A drop-in replacement f
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
-- Swift 3 and above
-- iOS 9 and above
+- Swift 4.2 and above
+- iOS 10 and above
 
 ## Installation
 
