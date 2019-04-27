@@ -1,9 +1,9 @@
 {
   "name": "TZSegmentedControl",
-  "version": "0.1.0",
-  "summary": "A short description of TZSegmentedControl.",
+  "version": "0.2.3",
+  "summary": "A scrollable segmented control view.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/tahseen0amin@gmail.com/TZSegmentedControl",
+  "homepage": "https://github.com/tahseen0amin/TZSegmentedControl",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,11 +12,12 @@
     "tahseen0amin@gmail.com": "tahseen0amin@gmail.com"
   },
   "source": {
-    "git": "https://github.com/tahseen0amin@gmail.com/TZSegmentedControl.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/tahseen0amin/TZSegmentedControl.git",
+    "tag": "0.2.3"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "TZSegmentedControl/Classes/**/*"
+  "source_files": "TZSegmentedControl/Classes/**/*",
+  "frameworks": "UIKit"
 }

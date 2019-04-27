@@ -33,9 +33,9 @@ class ViewController: UIViewController {
         titleCont.selectionIndicatorColor = UIColor.blue
         titleCont.selectionIndicatorHeight = 2.0
         titleCont.edgeInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        titleCont.selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.blue]
-        titleCont.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray,
-                                    NSFontAttributeName:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
+        titleCont.selectedTitleTextAttributes = [NSAttributedString.Key.foregroundColor :UIColor.blue]
+        titleCont.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.darkGray,
+                                    NSAttributedString.Key.font:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
         self.view.addSubview(titleCont)
 
         let imageCon = TZSegmentedControl(sectionImages: [UIImage(named: "1")!,
@@ -68,9 +68,9 @@ class ViewController: UIViewController {
         imageCon2.indicatorWidthPercent = 0.8
         imageCon2.selectionIndicatorColor = UIColor.gray
         imageCon2.backgroundColor = UIColor.white
-        imageCon2.selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.blue]
-        imageCon2.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray,
-                                    NSFontAttributeName:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
+        imageCon2.selectedTitleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.blue]
+        imageCon2.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.darkGray,
+                                         NSAttributedString.Key.font:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
         imageCon2.indicatorWidthPercent = 0.0
         self.view.addSubview(imageCon2)
         
@@ -90,9 +90,9 @@ class ViewController: UIViewController {
         titleCont1.selectionIndicatorHeight = 2.0
         titleCont1.borderType = .top
         titleCont1.edgeInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        titleCont1.selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
-        titleCont1.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray,
-                                         NSFontAttributeName:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
+        titleCont1.selectedTitleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        titleCont1.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.darkGray,
+                                          NSAttributedString.Key.font:UIFont(name: "Tahoma", size: 10.0) ?? UIFont.systemFont(ofSize: 13)]
         self.view.addSubview(titleCont1)
         
         self.view.backgroundColor = UIColor(red: 0.3, green: 0.4, blue: 0.7, alpha: 0.7)

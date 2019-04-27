@@ -86,11 +86,11 @@
     public var titleFormatter : TZTitleFormatterBlock?
     
     /// Text attributes to apply to labels of the unselected segments
-    public var titleTextAttributes: [String:Any]?
+    public var titleTextAttributes: [NSAttributedString.Key:Any]?
     
     /// Text attributes to apply to selected item title text.
     /// Attributes not set in this dictionary are inherited from `titleTextAttributes`.
-    public var selectedTitleTextAttributes: [String: Any]?
+    public var selectedTitleTextAttributes: [NSAttributedString.Key: Any]?
     
     /// Segmented control background color.
     /// Default is `[UIColor whiteColor]`
@@ -290,9 +290,14 @@
         let selected = (index == self.selectedSegmentIndex)
         var size = CGSize.zero
         if self.titleFormatter == nil {
-            size = (title as NSString).size(
-                attributes: selected ?
-                    self.finalSelectedTitleAttributes() : self.finalTitleAttributes())
+            var attributes : [NSAttributedString.Key: Any]
+            if selected {
+                attributes = self.finalSelectedTitleAttributes()
+            } else {
+                attributes = self.finalTitleAttributes()
+            }
+            size = (title as NSString).size(withAttributes: attributes)
+            
         } else {
             size = self.titleFormatter!(self, title, index, selected).size()
         }
@@ -377,9 +382,9 @@
                 newRect = CGRect(x: ceil(newRect.origin.x), y: ceil(newRect.origin.y), width: ceil(newRect.size.width), height: ceil(newRect.size.height))
                 let titleLayer = CATextLayer()
                 titleLayer.frame = newRect
-                titleLayer.alignmentMode = kCAAlignmentCenter
+                titleLayer.alignmentMode = CATextLayerAlignmentMode.center
                 if (UIDevice.current.systemVersion as NSString).floatValue < 10.0 {
-                    titleLayer.truncationMode = kCATruncationEnd
+                    titleLayer.truncationMode = CATextLayerTruncationMode.end
                 }
                 titleLayer.string = self.attributedTitleAtIndex(index: index)
                 titleLayer.contentsScale = UIScreen.main.scale
@@ -460,9 +465,9 @@
                 
                 let titleLayer = CATextLayer()
                 titleLayer.frame = textRect
-                titleLayer.alignmentMode = kCAAlignmentCenter
+                titleLayer.alignmentMode = CATextLayerAlignmentMode.center
                 if (UIDevice.current.systemVersion as NSString).floatValue < 10.0 {
-                    titleLayer.truncationMode = kCATruncationEnd
+                    titleLayer.truncationMode = CATextLayerTruncationMode.end
                 }
                 titleLayer.string = self.attributedTitleAtIndex(index: index)
                 titleLayer.contentsScale = UIScreen.main.scale
@@ -963,7 +968,7 @@
                 // Animate to new position
                 CATransaction.begin()
                 CATransaction.setAnimationDuration(0.15)
-                CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+                CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear))
                 self.setArrowFrame()
                 self.selectionIndicatorBoxLayer.frame = self.frameForFillerSelectionIndicator()
                 self.selectionIndicatorStripLayer.frame = self.frameForSelectionIndicator()
@@ -992,9 +997,9 @@
     }
     
     //MARK: - Styliing Support
-    private func finalTitleAttributes() -> [String:Any] {
-        var defaults : [String:Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 16),
-                                       NSForegroundColorAttributeName: UIColor.black]
+    private func finalTitleAttributes() -> [NSAttributedString.Key:Any] {
+        var defaults : [NSAttributedString.Key:Any] = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16),
+                                       NSAttributedString.Key.foregroundColor: UIColor.black]
         if self.titleTextAttributes != nil {
             defaults.merge(dict: self.titleTextAttributes!)
         }
@@ -1002,8 +1007,8 @@
         return defaults
     }
     
-    private func finalSelectedTitleAttributes() -> [String:Any] {
-        var defaults : [String:Any] = self.finalTitleAttributes()
+    private func finalSelectedTitleAttributes() -> [NSAttributedString.Key:Any] {
+        var defaults : [NSAttributedString.Key:Any] = self.finalTitleAttributes()
         if self.selectedTitleTextAttributes != nil {
             defaults.merge(dict: self.selectedTitleTextAttributes!)
         }
